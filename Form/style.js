@@ -1,88 +1,87 @@
-import { StyleSheet, Dimensions} from 'react-native'
+import { StyleSheet, Dimensions } from "react-native";
 
-
-const {width, height} = Dimensions.get('screen')
+const { width, height } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
+  imageBackground: {
+    width: width,
+    height: height,
+    position: "absolute",
+  },
 
-    imageBackground: {
-        width: width,
-        height:height,
-        position: 'absolute'
-      },
-      
-    title: {
+  title: {
     fontSize: 30,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 30,   
-    },
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 30,
+    color: "white",
+  },
 
-    form: {
-        marginTop: 15
-    },
+  form: {
+    marginTop: 15,
+  },
 
-    text: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: 'black',
-        marginLeft: 20, 
-        marginTop: 10,
-    },
+  text: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "black",
+    marginLeft: 20,
+    marginTop: 10,
+  },
 
-    input: {
-        height: 40,
-        borderColor: '#000000',
-        borderWidth: 1,
-        marginTop: 5,
-        paddingLeft: 10,
-        marginHorizontal: 20,  
-        fontWeight: 'bold',       
-    },
-    
-    description: {
-        height: 100,
-        borderColor: '#000000',
-        borderWidth: 1,
-        marginTop: 5,
-        paddingLeft: 10,
-        marginHorizontal: 20,
-        fontWeight: 'bold',
-        fontSize: 15,
-          
-    },
+  input: {
+    height: 40,
+    borderColor: "#000000",
+    borderWidth: 1,
+    marginTop: 5,
+    paddingLeft: 10,
+    marginHorizontal: 20,
+    fontWeight: "bold",
+  },
 
-    button: {
-        marginTop:20,
-        backgroundColor: '#00C8FF',
-        paddingVertical: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-        marginHorizontal: 20,
-      },
+  description: {
+    height: 100,
+    borderColor: "#000000",
+    borderWidth: 1,
+    marginTop: 5,
+    paddingLeft: 10,
+    marginHorizontal: 20,
+    fontWeight: "bold",
+    fontSize: 15,
+  },
 
-      buttonText: {
-        color: '#ffffff',
-        fontSize: 20,
-        fontWeight: 'bold',
-      },
+  button: {
+    marginTop: 20,
+    backgroundColor: "#00C8FF",
+    paddingVertical: 10,
+    borderRadius: 5,
+    alignItems: "center",
+    marginHorizontal: 20,
+  },
 
-    navBar: {
-        flexDirection: 'row',
-        marginTop: 70,
-      },
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
 
-      navButton: {
-        flex: 1,
-        backgroundColor: '#FFFFFF',
-        alignItems: 'center',
-        padding: 10,
-        margin: 2,
-      },
+  navBar: {
+    flexDirection: "row",
+    marginTop: 70,
+  },
 
-      navButtonText: {
-        fontSize: 20,
-      },
-})
+  navButton: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    alignItems: "center",
+    padding: 10,
+    margin: 2,
+  },
 
-export default styles
+  navButtonText: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+});
+
+export default styles;

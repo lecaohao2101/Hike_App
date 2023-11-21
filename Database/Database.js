@@ -1,10 +1,13 @@
+// Import the SQLite module from Expo, which allows us to interact with a local SQLite database.
 import * as SQLite from "expo-sqlite";
 
+// Define constants for the database configuration.
 const database_name = "HikeApps.db";
 const database_version = "1.0";
 const database_displayname = "Hike App Database";
 const database_size = 200000;
 
+// Open or create the SQLite database using Expo's SQLite.openDatabase method.
 const db = SQLite.openDatabase(
   database_name,
   database_version,
@@ -12,7 +15,7 @@ const db = SQLite.openDatabase(
   database_size
 );
 
-//Create table
+// Function to initialize the database and create the 'hikeDb' table if it doesn't exist.
 const initDatabase = () => {
   db.transaction((tx) => {
     tx.executeSql(
@@ -33,7 +36,7 @@ const initDatabase = () => {
   });
 };
 
-//Select all data
+// Function to retrieve all hikes from the 'hikeDb' table.
 const getHikes = () => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
@@ -51,7 +54,7 @@ const getHikes = () => {
   });
 };
 
-//insert data
+// Function to insert a new hike into the 'hikeDb' table.
 const addHike = (
   hikeName,
   location,
@@ -85,7 +88,7 @@ const addHike = (
   });
 };
 
-//delete data
+// Function to delete a hike from the 'hikeDb' table based on its ID.
 const deleteHike = (id) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
@@ -103,7 +106,7 @@ const deleteHike = (id) => {
   });
 };
 
-//Delete all data
+// Function to delete all hikes from the 'hikeDb' table.
 const deleteAllHike = () => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
@@ -121,8 +124,7 @@ const deleteAllHike = () => {
   });
 };
 
-
-//Update data
+// Function to update the details of a hike in the 'hikeDb' table based on its ID.
 const updateHike = (
   id,
   hikeName,
@@ -170,6 +172,7 @@ const updateHike = (
   });
 };
 
+// Function to retrieve a specific hike from the 'hikeDb' table based on its ID.
 const getHikeById = (id) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
@@ -187,6 +190,7 @@ const getHikeById = (id) => {
   });
 };
 
+// Object containing all the database functions to be exported.
 const Database = {
   initDatabase,
   addHike,
@@ -197,4 +201,5 @@ const Database = {
   deleteAllHike,
 };
 
+// Export the Database object for use in other modules.
 export default Database;

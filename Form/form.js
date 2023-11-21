@@ -1,3 +1,4 @@
+// Import necessary React components and libraries
 import React, { useState, useEffect } from "react";
 import {
   TextInput,
@@ -12,17 +13,19 @@ import Database from "../Database/Database";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import styles from "./style";
 
+// Define the FormScreen component
 const FormScreen = ({ navigation }) => {
-  //Create useState to store input value
+  // State variables to store input values
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [dateTime, setDateTime] = useState(new Date());
-  const [parkingAvailable, setParkingAvailable] = useState("yes");
+  const [parkingAvailable, setParkingAvailable] = useState("");
   const [length, setLength] = useState("");
-  const [difficulty, setDifficulty] = useState("High");
+  const [difficulty, setDifficulty] = useState("");
   const [datePickerVisible, setDatePickerVisible] = useState(false);
   const [description, setDescription] = useState("");
 
+  // useEffect hook to initialize the database on component mount
   useEffect(() => {
     const initDB = async () => {
       try {
@@ -33,31 +36,34 @@ const FormScreen = ({ navigation }) => {
       }
     };
 
+    // Call the function initDB
     initDB();
   }, []);
+
+  // Function to handle adding a new hike
   const handleAddHike = async () => {
-    const originalDate = new Date(dateTime);
-    console.log(originalDate);
-    const year = originalDate.getFullYear();
-    const month = String(originalDate.getMonth() + 1).padStart(2, "0");
-    const day = String(originalDate.getDate()).padStart(2, "0");
+    // Format the selected date
+    const date = new Date(dateTime);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
     const formattedDate = `${year}-${month}-${day}`;
 
-
+    // Validate required fields
     if (
       !name ||
       !location ||
       !formattedDate ||
       !parkingAvailable ||
       !length ||
-      !difficulty ||
-      !description
+      !difficulty
     ) {
       Alert.alert("Error", "All required fields must be filled ");
       return;
     }
 
     try {
+      // Add the hike to the database
       const insertId = await Database.addHike(
         name,
         location,
@@ -68,13 +74,13 @@ const FormScreen = ({ navigation }) => {
         description
       );
 
-      console.log("Hike added with ID:", insertId);
+      // Reset state variables
       setName("");
       setLocation("");
       setDateTime(new Date());
-      setParkingAvailable("yes");
+      setParkingAvailable("");
       setLength("");
-      setDifficulty("High");
+      setDifficulty("");
       setDescription("");
 
       if (insertId) {
@@ -90,6 +96,7 @@ const FormScreen = ({ navigation }) => {
     }
   };
 
+  // Functions for handling date picker visibility
   const showDatePicker = () => {
     setDatePickerVisible(true);
   };
@@ -101,17 +108,22 @@ const FormScreen = ({ navigation }) => {
     hideDatePicker();
   };
 
+  // JSX rendering of the FormScreen component
   return (
     <View>
+      {/* Background Image */}
       <Image
         style={styles.imageBackground}
-        src="https://th.bing.com/th/id/OIG.J5_PmGQi8aC.psciAXxX?pid=ImgGn"
+        src="https://img.freepik.com/premium-photo/tropical-beach-with-palm-trees-sun-shining-through-palm-leaves_421632-685.jpg"
       />
       <View>
+        {/* Title */}
         <Text style={styles.title}>Add New Hike</Text>
       </View>
 
+      {/* Form Section */}
       <View style={styles.form}>
+        {/* Name of the Hike */}
         <View>
           <Text style={styles.text}>Name of the hike</Text>
           <TextInput
@@ -122,6 +134,7 @@ const FormScreen = ({ navigation }) => {
           />
         </View>
 
+        {/* Location */}
         <View>
           <Text style={styles.text}>Location</Text>
           <TextInput
@@ -132,11 +145,11 @@ const FormScreen = ({ navigation }) => {
           />
         </View>
 
+        {/* Date of the Hike */}
         <View>
           <Text style={styles.text}>Date of the hike</Text>
           <TextInput
             style={styles.input}
-            placeholder="21/01/2020"
             value={dateTime ? new Date(dateTime).toLocaleDateString() : ""}
             onFocus={showDatePicker}
           />
@@ -150,6 +163,7 @@ const FormScreen = ({ navigation }) => {
           />
         </View>
 
+        {/* Parking Availability */}
         <View>
           <Text style={styles.text}>Parking available</Text>
           <RNPickerSelect
@@ -162,6 +176,7 @@ const FormScreen = ({ navigation }) => {
           />
         </View>
 
+        {/* Length of the Hike */}
         <View>
           <Text style={styles.text}>Length of the hike</Text>
           <TextInput
@@ -173,6 +188,7 @@ const FormScreen = ({ navigation }) => {
           />
         </View>
 
+        {/* Difficulty Levels */}
         <View>
           <Text style={styles.text}>Difficulty levels</Text>
           <RNPickerSelect
@@ -185,6 +201,7 @@ const FormScreen = ({ navigation }) => {
           />
         </View>
 
+        {/* Description */}
         <View>
           <Text style={styles.text}>Description</Text>
           <TextInput
@@ -196,12 +213,14 @@ const FormScreen = ({ navigation }) => {
           />
         </View>
 
+        {/* Add Button */}
         <View>
           <TouchableOpacity style={styles.button} onPress={handleAddHike}>
             <Text style={styles.buttonText}>Add</Text>
           </TouchableOpacity>
         </View>
 
+        {/* Navigation Buttons */}
         <View style={styles.navBar}>
           <TouchableOpacity style={styles.navButton}>
             <Text style={styles.navButtonText}>Add</Text>
@@ -219,4 +238,5 @@ const FormScreen = ({ navigation }) => {
   );
 };
 
+// Export the FormScreen component for use in other modules.
 export default FormScreen;

@@ -1,3 +1,4 @@
+// Import necessary React components and libraries
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -13,11 +14,14 @@ import { useFocusEffect } from "@react-navigation/native";
 import Database from "../Database/Database";
 import styles from "./style";
 
+// Define the HomeScreen component
 const HomeScreen = ({ navigation }) => {
+  // State variables to store data
   const [hikes, setHikes] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredHikes, setFilteredHikes] = useState([]);
 
+  // Function to load hikes from the database
   const loadHikes = async () => {
     try {
       const allHikes = await Database.getHikes();
@@ -29,27 +33,18 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  // useEffect and useFocusEffect hooks to load hikes on component mount and focus
+  useEffect(() => {
+    loadHikes();
+  }, []);
+
   useFocusEffect(
     React.useCallback(() => {
       loadHikes();
     }, [])
   );
 
-  useEffect(() => {
-    const loadHikes = async () => {
-      try {
-        const allHikes = await Database.getHikes();
-        setHikes(allHikes);
-        setFilteredHikes(allHikes);
-      } catch (error) {
-        console.error("Error fetching hikes:", error);
-        Alert.alert("Error", "Unable to load hikes");
-      }
-    };
-
-    loadHikes();
-  }, []);
-
+  // Function to handle search functionality
   const handleSearch = (text) => {
     setSearch(text);
     if (text) {
@@ -64,6 +59,7 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  // Function to delete all hikes
   const deleteAllHikes = async () => {
     try {
       await Database.deleteAllHike();
@@ -76,6 +72,7 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  // Function to delete a specific hike
   const deleteHike = async (hikeId) => {
     try {
       await Database.deleteHike(hikeId);
@@ -89,10 +86,12 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  // Function to navigate to the edit screen
   const editHike = (hikeId) => {
     navigation.navigate("Update", { id: hikeId });
   };
 
+  // Function to render each hike item in the FlatList
   const renderHikeItem = ({ item }) => {
     const date = new Date(item.selectedDate).toDateString();
     return (
@@ -124,27 +123,33 @@ const HomeScreen = ({ navigation }) => {
     );
   };
 
+  // JSX rendering of the HomeScreen component
   return (
     <View style={styles.container}>
+      {/* Background Image */}
       <Image
         style={styles.imageBackground}
         src="https://th.bing.com/th/id/OIG.J5_PmGQi8aC.psciAXxX?pid=ImgGn"
       />
 
+      {/* Title */}
       <View>
         <Text style={styles.title}>Home</Text>
       </View>
 
+      {/* Search and Delete All Hikes Section */}
       <View style={styles.searchDeleteAll}>
+        {/* Search Input */}
         <View style={styles.search}>
           <TextInput
             style={styles.searchInput}
-            placeholder="Search    hikes..."
+            placeholder="Search hikes..."
             value={search}
             onChangeText={handleSearch}
           />
         </View>
 
+        {/* Delete All Hikes Button */}
         <View style={styles.deleteAll}>
           <Button
             title="Delete All Hikes"
@@ -154,6 +159,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
       </View>
 
+      {/* FlatList to display hikes */}
       <FlatList
         data={filteredHikes}
         renderItem={renderHikeItem}
@@ -161,7 +167,9 @@ const HomeScreen = ({ navigation }) => {
         style={styles.list}
       />
 
+      {/* Navigation Buttons */}
       <View style={styles.navBar}>
+        {/* Add Hike Button */}
         <TouchableOpacity style={styles.navButton}>
           <Text
             style={styles.navButtonText}
@@ -171,6 +179,7 @@ const HomeScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
 
+        {/* Home Button */}
         <TouchableOpacity
           style={styles.navButton}
           onPress={() => navigation.navigate("Home")}
@@ -182,4 +191,5 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
+// Export the HomeScreen component for use in other modules.
 export default HomeScreen;
